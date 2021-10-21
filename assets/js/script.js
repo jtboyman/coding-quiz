@@ -26,4 +26,13 @@ let startTimer = function() {
     }, 1000);
 }
 
+//begin game function
+//remove the intro div
+//create new div
+//create p element and append text
+//create 4 button elements and append text
+//on click button will: display 'correct' or 'wrong'; bring up next question
+
+let beginGame
+
 startButton.addEventListener("click", startTimer);
