@@ -1,19 +1,57 @@
 let timeLeft = 60;
+let questionTracker = 0;
+let answerTracker = -1;
 let startButton = document.querySelector('#startBtn');
-let introBox = document.getElementById('introBox');
-let mainBox = document.getElementById("mainBox");
-const questions = ["Commonly used data types DO NOT include...", "The condition in an if/else statement is enclosed in..."];
+let introBox = document.getElementById('intro-box');
+let mainBox = document.getElementById("main-box");
+var timer;
+const questions = ["Commonly used data types DO NOT include...", "The condition in an if/else statement is enclosed in...", "Arrays in JavaScript can be used to store...", "String values must be enclosed within ______ when being assigned to variables.", "A very useful tool used during development and debugging for printing content to the debugger is..."];
 const answers = [
     {
-        answers1: [
+        choices: [
             {text: "Strings", correct: false},
             {text: "Booleans", correct: false},
             {text: "Alerts", correct: true},
             {text: "Numbers", correct: false},
         ]
     },
-]
 
+    {
+        choices: [
+            {text: "Quotes", correct: false},
+            {text: "Parentheses", correct: true},
+            {text: "Curly Brackets", correct: false},
+            {text: "Square Brackets", correct: false},
+        ]
+    },
+
+    {
+        choices: [
+            {text: "Numbers and Strings", correct: false},
+            {text: "Other Arrays", correct: false},
+            {text: "Booleans", correct: false},
+            {text: "All of the Above", correct: true},
+        ]
+    },
+
+    {
+        choices: [
+            {text: "Commas", correct: false},
+            {text: "Curly Brackets", correct: false},
+            {text: "Quotes", correct: true},
+            {text: "Parentheses", correct: false},
+        ]
+    },
+
+    {
+        choices: [
+            {text: "JavaScript", correct: false},
+            {text: "Terminal/GitBash", correct: false},
+            {text: "For Loops", correct: false},
+            {text: "console.log", correct: true},
+        ]
+    },
+];
 
 let startTimer = function() {
 
@@ -23,21 +61,24 @@ let startTimer = function() {
     
     timerEl.append(timeLeft);
 
-    let timerBox = document.querySelector('#timerBox');
+    let timerBox = document.querySelector('#timer-box');
 
     timerBox.appendChild(timerEl);
     
-    setInterval(function() {
-    
+    //function to set up timer
+    let setTimer = function() {
         if (timeLeft > 0) {
             timeLeft--;
             document.getElementById('timer').innerHTML = timeLeft;
         }
 
-        else if (timeLeft <= 0)
-            //come back to make this take you to the end screen
-            return;
-    }, 1000);
+        else if (timeLeft <= 0) {
+            //end the game
+            return endGame();
+        }
+    }
+    //function to run timer on 1 sec interval
+    timer = setInterval(setTimer, 1000);
 }
 
 //begin game function
@@ -53,44 +94,189 @@ let beginGame = function() {
 
     //creates and appends new div to main
     let questionBoxEl = document.createElement("div");
+    questionBoxEl.id = "question-box";
     mainBox.appendChild(questionBoxEl);
 
-    //run the function to load question 1
+    //create p div for questionbox for questions to go in
+    let questionTextEl = document.createElement("p");
+    questionTextEl.id = "question-text";
+    questionBoxEl.appendChild(questionTextEl);
+
+    //create buttons
+    let answer1El = document.createElement("button");
+    answer1El.id = "answer1";
+    questionBoxEl.appendChild(answer1El);
+
+    let answer2El = document.createElement("button");
+    answer2El.id = "answer2";
+    questionBoxEl.appendChild(answer2El);
+
+    let answer3El = document.createElement("button");
+    answer3El.id = "answer3";
+    questionBoxEl.appendChild(answer3El);
+
+    let answer4El = document.createElement("button");
+    answer4El.id = "answer4";
+    questionBoxEl.appendChild(answer4El);
+
+    //run the function to run the game, uses success function to keep time
+    success();
 }
 
 let genQuestion = function() {
-    //create p element for question text and assign variable, append to main
-    let questionText = document.createElement("p");
-    questionText.id = "questionText";
-    mainBox.appendChild(questionText);
-    //pull from array of questions to fill p
-    for (let i = 0; i<questions.length; i++) {
-        questionText.innerText = questions[i];
-        
-    }
+    //pull from array to do question
+    document.getElementById('question-text').innerText = questions[questionTracker];
+
+    //prep for next question
+    questionTracker++;
 }
 
 let genAnswers = function() {
-    let answer1 = document.createElement("button");
-    mainBox.appendChild(answer1);
 
-    let answer2 = document.createElement("button");
-    mainBox.appendChild(answer2);
+    resetAnswers();
+    answerTracker++;
 
-    let answer3 = document.createElement("button");
-    mainBox.appendChild(answer3);
+    //answer 1, display text
+    document.getElementById('answer1').innerText = answers[answerTracker].choices[0].text;
+    //test if right or wrong and assign new id or class
+    if (answers[answerTracker].choices[0].correct === true) {
+        document.getElementById('answer1').id = "correct-answer";
+    }
 
-    let answer4 = document.createElement("button");
-    mainBox.appendChild(answer4);
+    else if (answers[answerTracker].choices[0].correct === false) {
+    document.getElementById('answer1').className = "wrong-answer";
+    }
 
-    for (let i = 0; i<answers.length; i++) {
-        answer1.innerText = answers[i].answers1[0].text;
-        answer2.innerText = answers[i].answers1[1].text;
-        answer3.innerText = answers[i].answers1[2].text;
-        answer4.innerText = answers[i].answers1[3].text;
+    //answer 2
+    document.getElementById('answer2').innerText = answers[answerTracker].choices[1].text;
+
+    if (answers[answerTracker].choices[1].correct === true) {
+        document.getElementById('answer2').id = "correct-answer";
+    }
+
+    else if (answers[answerTracker].choices[1].correct === false) {
+    document.getElementById('answer2').className = "wrong-answer";
+    }
+
+    //answer 3
+    document.getElementById('answer3').innerText = answers[answerTracker].choices[2].text;
+
+    if (answers[answerTracker].choices[2].correct === true) {
+        document.getElementById('answer3').id = "correct-answer";
+    }
+    
+    else if (answers[answerTracker].choices[2].correct === false) {
+        document.getElementById('answer3').className = "wrong-answer";
+    }
+
+    //answer 4
+    document.getElementById('answer4').innerText = answers[answerTracker].choices[3].text;
+
+    if (answers[answerTracker].choices[3].correct === true) {
+        document.getElementById('answer4').id = "correct-answer";
+    }
+    
+    else if (answers[answerTracker].choices[3].correct === false) {
+    document.getElementById('answer4').className = "wrong-answer";
+    }
+
+    //answer button event listeners
+    document.getElementById('correct-answer').addEventListener("click", success, {once: true});
+    document.getElementsByClassName('wrong-answer')[0].addEventListener("click", failure, {once: true});
+    document.getElementsByClassName('wrong-answer')[1].addEventListener("click", failure, {once: true});
+    document.getElementsByClassName('wrong-answer')[2].addEventListener("click", failure, {once: true});
+
+}
+
+let resetAnswers = function() {
+        //reset answer 1
+        document.getElementsByTagName("button")[0].id = 'answer1';
+        document.getElementsByTagName("button")[0].className = 'answerBtn';
+        
+        //reset answer 2
+        document.getElementsByTagName("button")[1].id = 'answer2';
+        document.getElementsByTagName("button")[1].className = 'answerBtn';
+        //reset answer 3
+        document.getElementsByTagName("button")[2].id = 'answer3';
+        document.getElementsByTagName("button")[2].className = 'answerBtn';
+        //reset answer 4
+        document.getElementsByTagName("button")[3].id = 'answer4';
+        document.getElementsByTagName("button")[3].className = 'answerBtn';
+}
+
+let success = function() {
+    if (questionTracker <=4) {//if there are questions left continue the game - number should equal number of questions -1
+        genQuestion();
+        genAnswers();
+    }
+
+    else if (questionTracker > 4) {//end the game
+        endGame();
+    }
+
+}
+
+let failure = function() {
+    if (timeLeft >= 5) {
+        timeLeft = timeLeft - 5;
+    }
+    else if (timeLeft<5) {
+        timeLeft = 0;
+        endGame();
+    }
+
+    if (questionTracker <=4) {//if there are questions left continue the game - number should equal number of questions -1
+        genQuestion();
+        genAnswers();
+    }
+
+    else if (questionTracker > 4) { //end the game
+        endGame();
     }
 }
 
-startButton.addEventListener("click", startTimer);
+let endGame = function() {
+    //clear everything out
+    document.getElementById('question-box').remove();
 
+    //stop timer and set to correct score
+    clearInterval(timer);
+    document.getElementById('timer').innerText = timeLeft;
+
+    //create new elements on the page
+    //div
+    let endBoxEl = document.createElement('div');
+    endBoxEl.id = 'end-box';
+    mainBox.appendChild(endBoxEl);
+    //h1 head
+    let gameOverEl = document.createElement('h1');
+    gameOverEl.id = 'game-over';
+    gameOverEl.innerText = 'Game Over!'
+    endBoxEl.appendChild(gameOverEl);
+    //score
+    let scoreBoxEl = document.createElement('p');
+    scoreBoxEl.id = 'score-box';
+    scoreBoxEl.innerText = "Your score is " + timeLeft + "!";
+    endBoxEl.appendChild(scoreBoxEl);
+
+    //initials form
+    let endFormEl = document.createElement('form');
+    endFormEl.id = "formEl";
+    endBoxEl.appendChild(endFormEl);
+    let initialLabelEl = document.createElement('label');
+    initialLabelEl.setAttribute("for", "initials");
+    initialLabelEl.innerText = 'Enter your initials to save your score!';
+    endFormEl.appendChild(initialLabelEl);
+    let textLineEl = document.createElement('input');
+    textLineEl.setAttribute("type","text");
+    endFormEl.appendChild(textLineEl);
+    let formSubmitEl = document.createElement('input');
+    formSubmitEl.setAttribute("type","submit");
+    endFormEl.appendChild(formSubmitEl);
+
+}
+
+//start button event listeners
+startButton.addEventListener("click", startTimer);
 startButton.addEventListener("click", beginGame);
+
