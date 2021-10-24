@@ -5,6 +5,7 @@ let startButton = document.querySelector('#startBtn');
 let introBox = document.getElementById('intro-box');
 let mainBox = document.getElementById("main-box");
 var timer;
+var highScores = [];
 const questions = ["Commonly used data types DO NOT include...", "The condition in an if/else statement is enclosed in...", "Arrays in JavaScript can be used to store...", "String values must be enclosed within ______ when being assigned to variables.", "A very useful tool used during development and debugging for printing content to the debugger is..."];
 const answers = [
     {
@@ -132,7 +133,6 @@ let genQuestion = function() {
 }
 
 let genAnswers = function() {
-
     resetAnswers();
     answerTracker++;
 
@@ -181,14 +181,22 @@ let genAnswers = function() {
     }
 
     //answer button event listeners
-    document.getElementById('correct-answer').addEventListener("click", success, {once: true});
-    document.getElementsByClassName('wrong-answer')[0].addEventListener("click", failure, {once: true});
-    document.getElementsByClassName('wrong-answer')[1].addEventListener("click", failure, {once: true});
-    document.getElementsByClassName('wrong-answer')[2].addEventListener("click", failure, {once: true});
+    document.getElementById('correct-answer').addEventListener("click", success);
+    document.getElementsByClassName('wrong-answer')[0].addEventListener("click", failure);
+    document.getElementsByClassName('wrong-answer')[1].addEventListener("click", failure);
+    document.getElementsByClassName('wrong-answer')[2].addEventListener("click", failure);
 
 }
 
 let resetAnswers = function() {
+        //remove event listeners if needed
+        if (answerTracker>=1) {
+            document.getElementById('correct-answer').removeEventListener("click", success);
+            document.getElementsByClassName('wrong-answer')[0].removeEventListener("click", failure);
+            document.getElementsByClassName('wrong-answer')[1].removeEventListener("click", failure);
+            document.getElementsByClassName('wrong-answer')[2].removeEventListener("click", failure);
+        }
+
         //reset answer 1
         document.getElementsByTagName("button")[0].id = 'answer1';
         document.getElementsByTagName("button")[0].className = 'answerBtn';
@@ -270,9 +278,11 @@ let endGame = function() {
     endFormEl.appendChild(initialLabelEl);
     let textLineEl = document.createElement('input');
     textLineEl.setAttribute("type","text");
+    textLineEl.id = 'userScore';
     endFormEl.appendChild(textLineEl);
     let formSubmitEl = document.createElement('input');
     formSubmitEl.setAttribute("type","submit");
+    formSubmitEl.setAttribute("onclick", 'saveScore()');
     endFormEl.appendChild(formSubmitEl);
 
 }
