@@ -217,6 +217,7 @@ let success = function() {
 }
 
 let failure = function() {
+    //penalty for wrong answer
     if (timeLeft >= 5) {
         timeLeft = timeLeft - 5;
     }
