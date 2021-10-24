@@ -5,7 +5,7 @@ let startButton = document.querySelector('#startBtn');
 let introBox = document.getElementById('intro-box');
 let mainBox = document.getElementById("main-box");
 var timer;
-var highScores = [];
+var highScores = JSON.parse(localStorage.getItem("names-and-scores")) || [];
 const questions = ["Commonly used data types DO NOT include...", "The condition in an if/else statement is enclosed in...", "Arrays in JavaScript can be used to store...", "String values must be enclosed within ______ when being assigned to variables.", "A very useful tool used during development and debugging for printing content to the debugger is..."];
 const answers = [
     {
@@ -280,14 +280,53 @@ let endGame = function() {
     textLineEl.setAttribute("type","text");
     textLineEl.id = 'userScore';
     endFormEl.appendChild(textLineEl);
-    let formSubmitEl = document.createElement('input');
-    formSubmitEl.setAttribute("type","submit");
+    let formSubmitEl = document.createElement('button');
+    formSubmitEl.setAttribute("type","button");
     formSubmitEl.setAttribute("onclick", 'saveScore()');
+    formSubmitEl.innerText = "Submit Score";
     endFormEl.appendChild(formSubmitEl);
+
+}
+
+let saveScore = function() {
+    let input = document.getElementById("userScore").value;
+    let scoreDisplayObj = {
+        initials: input,
+        score: timeLeft,
+    }
+    highScores.push(scoreDisplayObj);
+    highScores.sort(function(a,b){return b.score-a.score});
+
+    localStorage.setItem("names-and-scores", JSON.stringify(highScores));
+    alert('Your high score was saved!');
+}
+
+let scoreBoard = function() {
+    mainBox.remove();
+    document.getElementById('view-scores-box').remove();
+    document.getElementById("timer-box").remove();
+
+    let scoreBoxEl = document.createElement("div");
+    document.getElementById('page-body').appendChild(scoreBoxEl);
+
+    let scoreListEl = document.createElement('ol');
+    scoreBoxEl.appendChild(scoreListEl);
+
+    for (let i = 0; i<highScores.length; i++) {
+        let scoreEl = document.createElement('li');
+        scoreListEl.appendChild(scoreEl);
+        scoreEl.innerText = highScores[i].initials + ":   " + highScores[i].score;
+    }
+
+    let backButtonEl = document.createElement("button");
+    backButtonEl.innerText = "Back";
+    backButtonEl.setAttribute("onclick","location.reload()");
+    scoreBoxEl.appendChild(backButtonEl);
+
 
 }
 
 //start button event listeners
 startButton.addEventListener("click", startTimer);
 startButton.addEventListener("click", beginGame);
-
+document.getElementById('view-scores-link').addEventListener("click", scoreBoard);
