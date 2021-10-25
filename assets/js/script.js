@@ -270,6 +270,7 @@ let endGame = function() {
     //initials form
     let endFormEl = document.createElement('form');
     endFormEl.id = "formEl";
+    endFormEl.setAttribute("onsubmit", "saveScore(event)")
     endBoxEl.appendChild(endFormEl);
     let initialLabelEl = document.createElement('label');
     initialLabelEl.setAttribute("for", "initials");
@@ -281,13 +282,14 @@ let endGame = function() {
     endFormEl.appendChild(textLineEl);
     let formSubmitEl = document.createElement('button');
     formSubmitEl.setAttribute("type","button");
-    formSubmitEl.setAttribute("onclick", 'saveScore()');
+    formSubmitEl.setAttribute("onclick", 'saveScore(event)');
     formSubmitEl.innerText = "Submit Score";
     endFormEl.appendChild(formSubmitEl);
 
 }
 
-let saveScore = function() {
+let saveScore = function(event) {
+    event.preventDefault();
     //if no input assign value 'guest'
     let input = document.getElementById("userScore").value;
     if (input === "") {
