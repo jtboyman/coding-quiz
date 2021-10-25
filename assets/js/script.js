@@ -288,7 +288,7 @@ let endGame = function() {
 }
 
 let saveScore = function() {
-    //if no input
+    //if no input assign value 'guest'
     let input = document.getElementById("userScore").value;
     if (input === "") {
         input = "guest";
