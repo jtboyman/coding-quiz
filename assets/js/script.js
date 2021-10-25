@@ -82,13 +82,6 @@ let startTimer = function() {
     timer = setInterval(setTimer, 1000);
 }
 
-//begin game function
-//remove the intro div
-//create new div
-//create p element and append text
-//create 4 button elements and append text
-//on click button will: display 'correct' or 'wrong'; bring up next question
-
 let beginGame = function() {
     //removes old box
     introBox.remove();
@@ -216,6 +209,9 @@ let success = function() {
     if (questionTracker <=4) {//if there are questions left continue the game - number should equal number of questions -1
         genQuestion();
         genAnswers();
+        if (questionTracker >1) {
+            document.getElementById('accuracy').innerText = "Correct!";
+        }
     }
 
     else if (questionTracker > 4) {//end the game
@@ -226,17 +222,18 @@ let success = function() {
 
 let failure = function() {
     //penalty for wrong answer
-    if (timeLeft >= 5) {
-        timeLeft = timeLeft - 5;
+    if (timeLeft >= 10) {
+        timeLeft = timeLeft - 10;
     }
-    else if (timeLeft<5) {
+    else if (timeLeft<10) {
         timeLeft = 0;
-        endGame();
+        return endGame();
     }
 
     if (questionTracker <=4) {//if there are questions left continue the game - number should equal number of questions -1
         genQuestion();
         genAnswers();
+        document.getElementById('accuracy').innerText = "Wrong :(";
     }
 
     else if (questionTracker > 4) { //end the game
@@ -290,6 +287,9 @@ let endGame = function() {
 
 let saveScore = function() {
     let input = document.getElementById("userScore").value;
+    if (input === "") {
+        input = "guest";
+    }
     let scoreDisplayObj = {
         initials: input,
         score: timeLeft,
@@ -299,6 +299,7 @@ let saveScore = function() {
 
     localStorage.setItem("names-and-scores", JSON.stringify(highScores));
     alert('Your high score was saved!');
+    location.reload();
 }
 
 let scoreBoard = function() {
