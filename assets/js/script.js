@@ -207,7 +207,7 @@ let resetAnswers = function() {
 }
 
 let success = function() {
-    if (questionTracker <=4) {//if there are questions left continue the game - number should equal number of questions -1
+    if (questionTracker <= questions.length - 1) {//if there are questions left continue the game - number should equal number of questions -1
         genQuestion();
         genAnswers();
         //make sure text doesnt display before quiz begins
@@ -216,7 +216,7 @@ let success = function() {
         }
     }
 
-    else if (questionTracker > 4) {//end the game
+    else if (questionTracker > questions.length - 1) {//end the game
         endGame();
     }
 
@@ -232,13 +232,13 @@ let failure = function() {
         return endGame();
     }
 
-    if (questionTracker <=4) {//if there are questions left continue the game - number should equal number of questions -1
+    if (questionTracker <= questions.length - 1) {//if there are questions left continue the game - number should equal number of questions -1
         genQuestion();
         genAnswers();
         document.getElementById('accuracy').innerText = "Wrong :(";
     }
 
-    else if (questionTracker > 4) { //end the game
+    else if (questionTracker > questions.length - 1) { //end the game
         endGame();
     }
 }
