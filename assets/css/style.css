@@ -1,3 +1,22 @@
-#view-scores p {
+#view-scores-link {
     display: inline;
+}
+#view-scores-link:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+
+}
+
+body {
+    margin: 5px;
+    font-family: 'Roboto Mono', monospace;
+}
+
+button {
+    font-family: 'Roboto Mono', monospace;
+}
+
+button:hover {
+    cursor: pointer;
 }

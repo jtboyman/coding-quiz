@@ -126,8 +126,9 @@ let genQuestion = function() {
 }
 
 let genAnswers = function() {
-    resetAnswers();
+
     answerTracker++;
+    resetAnswers();
 
     //answer 1, display text
     document.getElementById('answer1').innerText = answers[answerTracker].choices[0].text;
@@ -306,9 +307,14 @@ let scoreBoard = function() {
     mainBox.remove();
     document.getElementById('view-scores-box').remove();
     document.getElementById("timer-box").remove();
+    document.getElementById('accuracy-box').remove();
 
     let scoreBoxEl = document.createElement("div");
     document.getElementById('page-body').appendChild(scoreBoxEl);
+
+    let scoreLabelEl = document.createElement("h1");
+    scoreLabelEl.innerText = "High Scores";
+    scoreBoxEl.appendChild(scoreLabelEl);
 
     let scoreListEl = document.createElement('ol');
     scoreBoxEl.appendChild(scoreListEl);
