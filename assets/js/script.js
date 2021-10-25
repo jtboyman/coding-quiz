@@ -53,7 +53,7 @@ const answers = [
         ]
     },
 ];
-
+//build timer
 let startTimer = function() {
 
     let timerEl = document.createElement("p");
@@ -126,7 +126,7 @@ let genQuestion = function() {
 }
 
 let genAnswers = function() {
-
+    //prep buttons, track answer array
     answerTracker++;
     resetAnswers();
 
@@ -210,6 +210,7 @@ let success = function() {
     if (questionTracker <=4) {//if there are questions left continue the game - number should equal number of questions -1
         genQuestion();
         genAnswers();
+        //make sure text doesnt display before quiz begins
         if (questionTracker >1) {
             document.getElementById('accuracy').innerText = "Correct!";
         }
@@ -287,10 +288,12 @@ let endGame = function() {
 }
 
 let saveScore = function() {
+    //if no input
     let input = document.getElementById("userScore").value;
     if (input === "") {
         input = "guest";
     }
+    //build object for array, save and push it, reload the page
     let scoreDisplayObj = {
         initials: input,
         score: timeLeft,
@@ -304,11 +307,12 @@ let saveScore = function() {
 }
 
 let scoreBoard = function() {
+    //removes other elements
     mainBox.remove();
     document.getElementById('view-scores-box').remove();
     document.getElementById("timer-box").remove();
     document.getElementById('accuracy-box').remove();
-
+    //create scoreboard base
     let scoreBoxEl = document.createElement("div");
     document.getElementById('page-body').appendChild(scoreBoxEl);
 
@@ -318,7 +322,7 @@ let scoreBoard = function() {
 
     let scoreListEl = document.createElement('ol');
     scoreBoxEl.appendChild(scoreListEl);
-
+    //populate scoreboard
     for (let i = 0; i<highScores.length; i++) {
         let scoreEl = document.createElement('li');
         scoreListEl.appendChild(scoreEl);
@@ -336,4 +340,5 @@ let scoreBoard = function() {
 //start button event listeners
 startButton.addEventListener("click", startTimer);
 startButton.addEventListener("click", beginGame);
+//scoreboard event listener
 document.getElementById('view-scores-link').addEventListener("click", scoreBoard);
