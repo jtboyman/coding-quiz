@@ -1,6 +1,7 @@
 # Coding Quiz
 
 This is a quick JavaScript-based quiz game to test the player's coding knowledge. It creates elements with JavaScript and allows users to save high scores to localStorage as well as display them on a local leaderboard.
+https://jtboyman.github.io/coding-quiz/
 
 ## Preview
 ![screengrab of application](./assets/images/app-screengrab.png)
